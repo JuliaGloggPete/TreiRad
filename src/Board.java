@@ -5,6 +5,8 @@ public class Board {
     Player player;
     String pos;
 
+    String symbol;
+
     public Board() {
         this.board = board;
 
@@ -29,36 +31,38 @@ public class Board {
 
     }
 
-    public boolean checkWin() {
+    public boolean checkWin(String symbol) {
         this.player = player;
+        this.symbol= symbol;
 
 
-        if (board[0].equals("X") && board[1].equals("X") && board[2].equals("X")) {
-            System.out.println("Player1 you won");
+        if (board[0].equals(symbol) && board[1].equals(symbol) && board[2].equals(symbol)) {
+            return true;
         }
-        if (board[3].equals("X") && board[4].equals("X") && board[5].equals("X")) {
-            System.out.println("Player1 you won");
+        if (board[3].equals(symbol) && board[4].equals(symbol) && board[5].equals(symbol)){
+            return true;
         }
-        if (board[6].equals("X") && board[7].equals("X") && board[8].equals("X")) {
-            System.out.println("Player1 you won");
+        if (board[6].equals(symbol) && board[7].equals(symbol) && board[8].equals(symbol)){
+            return true;
         }
-        if (board[0].equals("X") && board[3].equals("X") && board[6].equals("X")) {
-            System.out.println("Player1 you won");
+        if (board[0].equals(symbol) && board[3].equals(symbol) && board[6].equals(symbol)){
+            return true;
         }
-        if (board[1].equals("X") && board[4].equals("X") && board[7].equals("X")) {
-            System.out.println("Player1 you won");
+        if (board[1].equals(symbol) && board[4].equals(symbol) && board[7].equals(symbol)){
+            return true;
         }
-        if (board[2].equals("X") && board[5].equals("X") && board[8].equals("X")) {
-            System.out.println("Player1 you won");
+        if (board[2].equals(symbol) && board[5].equals(symbol) && board[8].equals(symbol))
+        {
+            return true;
         }
-        if (board[0].equals("X") && board[4].equals("X") && board[8].equals("X")) {
-            System.out.println("Player1 you won");
+        if (board[0].equals(symbol) && board[4].equals(symbol) && board[8].equals(symbol)) {
+            return true;
         }
         if (board[2].equals("X") && board[4].equals("X") && board[6].equals("X")) {
-            System.out.println("Player1 you won");
+            return true;
         }
 
-        return true;
+        return false;
     }
     public boolean validMove(String pos){
 
