@@ -8,19 +8,27 @@ public class Main {
 
         Board b = new Board();
 
-
+        boolean play = false;
         System.out.println("Hello - how about som Tic Tac Toe - Wanna play y/n?");
         String wantToPlay = sc.nextLine();
-        boolean play = false;
+
 
         if (wantToPlay.equals("y")) {
             play = true;
+            do {
+                b.printBoard();
+                playerTurn();
+
+
+
+
+            } while (play== true);
         } else if (wantToPlay.equals("n")) {
             play = false;
             System.out.println("Ok, bye!  See you around");
 
         } else {
-            System.out.println("Not a valid answer, here is the choices again");
+            System.out.println("Not a valid answer, here is the choices again: Want to play? Please answer with y for yes and n for no y/n");
 
         }
 
@@ -28,14 +36,7 @@ public class Main {
 
 
 
-           do {
-                b.printBoard();
-                playerTurn();
 
-
-
-
-            } while (play);
 
 
 
@@ -45,14 +46,21 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         Board b = new Board();
 
-        for (int i = 0; i < 9; i++) {
+        //här ska den gå sålänge inta alla är infylld
+
+
+        for (int i = 0; i < 19; i++) {
 
             if (i % 2 == 0) {
                 System.out.println("Player1 it's your turn, where do you want to set your X");
                 String choice = sc.nextLine();
 
+
                 String h = "X";
                 if (b.validMove(choice) == true) {
+                    //   choice = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                    // b.board[choice] = b.board[choice].replace(".", h);
+                   // b.printBoard();
                     switch (choice) {
                         case "a1":
 
@@ -105,7 +113,9 @@ public class Main {
                 }   if (b.checkWin("X") == true) {
                         System.out.println("Player 1 you won!\n Get ready for a new round");
                         break;
-                    }
+                    } else {b.checkDraw(b.board); if (b.checkDraw(b.board)==true) {break;
+                    }}
+
             } else {
                 System.out.println("Player2 it's your turn, where do you want to set your O");
                 String choice = sc.nextLine();
@@ -167,6 +177,11 @@ public class Main {
                     System.out.println("Player 2 you won!\n Get ready for a new round");
                     break;
                 }
+                else {b.checkDraw(b.board);if (b.checkDraw(b.board)==true) {break;
+                }
+
+               }
+
             }
         }
 
