@@ -8,7 +8,8 @@ public class Main {
 
         Board b = new Board();
 
-        boolean play = false;
+        boolean play;
+
         System.out.println("Hello - how about som Tic Tac Toe - Wanna play y/n?");
         String wantToPlay = sc.nextLine();
 
@@ -20,9 +21,7 @@ public class Main {
                 playerTurn();
 
 
-
-
-            } while (play== true);
+            } while (play == true);
         } else if (wantToPlay.equals("n")) {
             play = false;
             System.out.println("Ok, bye!  See you around");
@@ -32,158 +31,72 @@ public class Main {
 
         }
 
-
-
-
-
-
-
-
-
     }
 
     public static void playerTurn() {
         Scanner sc = new Scanner(System.in);
         Board b = new Board();
+        System.out.println("Player 1 please insert your name");
+        Player p1 = new Player(sc.nextLine(), "X");
+        System.out.println("Player 2 please insert your name");
+        Player p2 = new Player(sc.nextLine(), "O");
 
         //här ska den gå sålänge inta alla är infylld
 
-
-        for (int i = 0; i < 19; i++) {
+        for (int i = 0; i < 101; i++) {
+            if (i == 100) {
+                System.out.println("given input was not valid for to many times, we start over");
+                break;
+            }
 
             if (i % 2 == 0) {
-                System.out.println("Player1 it's your turn, where do you want to set your X");
-                String choice = sc.nextLine();
 
+                System.out.println(p1.getName() + " it's your turn, where do you want to set your " + p1.getSymbol() + "!");
+                String choice = sc.nextLine();
+                b.setBoard(choice);
 
                 String h = "X";
                 if (b.validMove(choice) == true) {
-                    //   choice = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                    //choice = [0, 1, 2, 3, 4, 5, 6, 7, 8]
                     // b.board[choice] = b.board[choice].replace(".", h);
-                   // b.printBoard();
-                    switch (choice) {
-                        case "a1":
+                    // b.printBoard();
+                    b.board[b.setPos(choice)] = b.board[b.setPos(choice)].replace(".", h);
+                    b.printBoard();
 
-                            b.board[0] = b.board[0].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "a2":
-
-                            b.board[1] = b.board[1].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "a3":
-
-                            b.board[2] = b.board[2].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "b1":
-
-                            b.board[3] = b.board[3].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "b2":
-
-                            b.board[4] = b.board[4].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "b3":
-
-                            b.board[5] = b.board[5].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "c1":
-
-                            b.board[6] = b.board[6].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "c2":
-
-                            b.board[7] = b.board[7].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "c3":
-
-                            b.board[8] = b.board[8].replace(".", h);
-                            b.printBoard();
-                            break;
-                    }}
-                  else {
-                    System.out.println("not a valid move, now you are beeing skipped and it is player2 turn");
-                }   if (b.checkWin("X") == true) {
-                        System.out.println("Player 1 you won!\n Get ready for a new round");
+                }
+                if (b.checkWin(p1.getSymbol()) == true) {
+                    System.out.println(p1.getName() + " you won!\n" + p2.getName() + "Get ready for a new round");
+                    break;
+                } else {
+                    b.checkDraw(b.board);
+                    if (b.checkDraw(b.board) == true) {
                         break;
-                    } else {b.checkDraw(b.board); if (b.checkDraw(b.board)==true) {break;
-                    }}
 
-            } else {
-                System.out.println("Player2 it's your turn, where do you want to set your O");
-                String choice = sc.nextLine();
+                }}} else {
+                    System.out.println(p2.getName() + " it's your turn, where do you want to set your " + p2.getSymbol() + "!");
+                    String choice = sc.nextLine();
 
-                String h = "O";
-                if (b.validMove(choice) == true) {
-                    switch (choice) {
-                        case "a1":
+                    String h = "O";
+                    if (b.validMove(choice) == true) {
+                        b.board[b.setPos(choice)] = b.board[b.setPos(choice)].replace(".", h);
+                        b.printBoard();
 
-                            b.board[0] = b.board[0].replace(".", h);
-                            b.printBoard();
+                    } else {
+                        System.out.println("not a valid move, now you are beeing skipped and it is Player1*s turn");
+                    }
+                    if (b.checkWin(p2.getSymbol()) == true) {
+                        System.out.println(p2.getName() + " you won!\n" + p1.getName() + " get ready for a new round");
+                        break;
+                    } else {
+                        b.checkDraw(b.board);
+                        if (b.checkDraw(b.board) == true) {
                             break;
-                        case "a2":
-
-                            b.board[1] = b.board[1].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "a3":
-
-                            b.board[2] = b.board[2].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "b1":
-
-                            b.board[3] = b.board[3].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "b2":
-
-                            b.board[4] = b.board[4].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "b3":
-
-                            b.board[5] = b.board[5].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "c1":
-
-                            b.board[6] = b.board[6].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "c2":
-
-                            b.board[7] = b.board[7].replace(".", h);
-                            b.printBoard();
-                            break;
-                        case "c3":
-
-                            b.board[8] = b.board[8].replace(".", h);
-                            b.printBoard();
-                            break;
+                        }
                     }
 
-                } else {
-                    System.out.println("not a valid move, now you are beeing skipped and it is Player1*s turn");
                 }
-                if (b.checkWin("O") == true) {
-                    System.out.println("Player 2 you won!\n Get ready for a new round");
-                    break;
-                }
-                else {b.checkDraw(b.board);if (b.checkDraw(b.board)==true) {break;
-                }
-
-               }
-
             }
+
+
         }
-
-
-    }}
+    }

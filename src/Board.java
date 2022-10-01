@@ -66,6 +66,77 @@ public class Board {
         return false;
     }
 
+
+    public int setPos(String pos) {
+
+        this.pos = pos;
+
+        switch (pos) {
+            case "a1":
+                return 0;
+
+
+            case "a2":
+                return 1;
+            case "a3":
+                return 2;
+            case "b1":
+                return 3;
+            case "b2":
+                return 4;
+            case "b3":
+                return 5;
+            case "c1":
+                return 6;
+            case "c2":
+                return 7;
+            case "c3":
+                return 8;
+
+            default:
+                System.out.println("not a valid choice");
+        }
+
+
+return Integer.parseInt(null);
+    }
+
+    public String setBoard(String pos) {
+
+
+        this.pos = pos;
+
+        switch (pos) {
+            case "a1":
+                return board[0];
+
+
+            case "a2":
+                return board[1];
+            case "a3":
+
+                return board[2];
+            case "b1":
+                return board[3];
+
+            case "b2":
+                return board[4];
+            case "b3":
+                return board[5];
+
+            case "c1":
+                return board[6];
+            case "c2":
+                return board[7];
+            case "c3":
+                return board[8];
+
+            default:
+                System.out.println("not a valid choice");
+        }
+        return board[8];
+    }
+
     public boolean validMove(String pos) {
 
         this.pos = pos;
@@ -141,6 +212,8 @@ public class Board {
 
 
     public boolean checkDraw(String[] board) {
+
+        //this only runs if win== false
         this.board = board;
 
         //horizontellt
@@ -159,23 +232,26 @@ public class Board {
 
 //      String[] draw1 = {"O", "X", "O", "X", "O", "O", "X", "O", "X"};
 //      String[] draw2 = {"X", "O", "X", "O", "X", "X", "O", "X", "O"};
-        if (Arrays.asList((board)).contains(".")){System.out.println("more moves");
-            return false;}
-        else { System.out.println("DRWAAAAAWWWW");return true;}
+        if (Arrays.asList((board)).contains(".")) {
 
+            return false;
+        } else {
+            System.out.println("DRWAAAAAWWWW no one won!");
+            return true;
+        }
 
 
         //for (int i = 0; i < board.length-1; i++) {
-          //  String checkBoard = board[i+1];
+        //  String checkBoard = board[i+1];
 
-            //maybe check hur många ggr "." förekommer och är det 0 så byebye
-            //annars kolla av om varje position && && && ".".... but that seems kind of a lot code for a litle funktion
-            //if (!checkBoard.equals(".")) {
+        //maybe check hur många ggr "." förekommer och är det 0 så byebye
+        //annars kolla av om varje position && && && ".".... but that seems kind of a lot code for a litle funktion
+        //if (!checkBoard.equals(".")) {
 
-
-        }
 
     }
+
+}
 
 
 
