@@ -21,7 +21,7 @@ public class Main {
                 case "y":
                     boolean play = true;
 
-                    while (play == true) {
+                    while (play) {
                         b.printBoard();
                         playerTurn();
                     }
@@ -44,7 +44,7 @@ public class Main {
                     case "y":
                         boolean play = true;
 
-                        while (play == true) {
+                        while (play) {
                             b.printBoard();
                             playerTurn();
                         }
@@ -54,12 +54,7 @@ public class Main {
             }
 
         }
-    } //else{
-    //  System.out.println("Not a valid answer, here is the choices again: Want to play? " +
-    //        "Please answer with y for yes and n for no y/n");
-
-
-
+    }
 
 public  static boolean validMenuChoice(String wantToPlay){
 
@@ -82,7 +77,6 @@ return false;
     }
 
 
-
     public static void playerTurn() {
         Scanner sc = new Scanner(System.in);
         Board b = new Board();
@@ -102,15 +96,13 @@ return false;
             if (i % 2 == 0) {
 
                 System.out.println(p1.getName() + " it's your turn, where do you want to set your " + p1.getSymbol() + "!");
+
                 String choice = sc.nextLine();
 
 
-                String h = "X";
+                String h = p1.getSymbol();
                 if (b.validMove(choice)) {
-                    //choice = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-                    // b.board[choice] = b.board[choice].replace(".", h);
-                    // b.printBoard();
-                    b.board[b.setPos(choice)] = b.board[b.setPos(choice)].replace(".", h);
+                      b.board[b.setPos(choice)] = b.board[b.setPos(choice)].replace(".", h);
                     b.printBoard();
 
                 }
@@ -130,9 +122,8 @@ return false;
                     }
                 }
 
-
                 if (b.checkWin(p1.getSymbol())) {
-                    System.out.println(p1.getName() + " you won!\n" + p2.getName() + "Get ready for a new round");
+                    System.out.println(p1.getName() + " you won!\nGet ready for a new round");
                     break;
                 } else {
                     b.checkDraw(b.board);
@@ -153,7 +144,7 @@ return false;
 
                         do {
 
-                            System.out.println("That was not a valid choice, "+
+                            System.out.println("Place already taken! That was not a valid choice, "+
                                     p2.getName() + " it's your turn, where do you want to set your " + p2.getSymbol() + "!");
                             newChoice = sc.nextLine();
 
@@ -179,5 +170,7 @@ return false;
 
 
         }
+
+
     }
 

@@ -1,3 +1,4 @@
+import java.nio.channels.ScatteringByteChannel;
 import java.util.Arrays;
 
 public class Board {
@@ -5,7 +6,6 @@ public class Board {
     String[] board = {".", ".", ".", ".", ".", ".", ".", ".", "."};
     String pos;
     String symbol;
-    Player player;
 
     public Board() {
         this.board = board;
@@ -42,6 +42,8 @@ public class Board {
 
     public int setPos(String pos) {
 
+
+
         this.pos = pos;
 
         switch (pos) {
@@ -63,14 +65,11 @@ public class Board {
                 return 7;
             case "c3":
                 return 8;
-
-            default:
-                System.out.println("not a valid choice");
-
         }
 
+// här behöver jag felhanteringen
 
-        return Integer.parseInt(null);
+        return 0;
     }
 
     public boolean validMove(String pos) {
