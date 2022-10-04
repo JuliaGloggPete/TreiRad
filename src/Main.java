@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 public class Main {
@@ -19,6 +18,8 @@ public class Main {
 
                     break;
                 case "y":
+
+                    // 1 or two players
                     boolean play = true;
 
                     while (play) {
@@ -46,36 +47,48 @@ public class Main {
 
                         while (play) {
                             b.printBoard();
+
                             playerTurn();
                         }
-
                 }
-
             }
+        }
+    }
+    public static boolean validMenuChoice(String wantToPlay) {
 
+        while (true) {
+            if (wantToPlay.equals("y")) {
+                return true;
+            } else if (wantToPlay.equals("n")) {
+                return true;
+            }
+            return false;
         }
     }
 
-public  static boolean validMenuChoice(String wantToPlay){
+    public static void playerMove(String choice, String symbol, String name, Board b) {
 
+        Scanner sc = new Scanner(System.in);
+        if (b.validMove(choice)) {
+            b.board[b.setPos(choice)] = b.board[b.setPos(choice)].replace(".", symbol);
+            b.printBoard();
 
-    while (true){
-        if (wantToPlay.equals("y")) {
-           return true;
+        } else {
+            String newChoice;
 
-        }
+            do {
 
-        else if ( wantToPlay.equals("n")) {
+                System.out.println("That was not a valid choice, " +
+                        name + " it's your turn, where do you want to set your " + symbol + "!");
+                newChoice = sc.nextLine();
 
-            return true;
-
-        }
-
-return false;
+            } while (!b.validMove(newChoice));
+            if (b.validMove(newChoice) == true) {
+                b.board[b.setPos(newChoice)] = b.board[b.setPos(newChoice)].replace(".", symbol);
+                b.printBoard();
             }
-
+        }
     }
-
 
     public static void playerTurn() {
         Scanner sc = new Scanner(System.in);
@@ -85,92 +98,47 @@ return false;
         System.out.println("Player 2 please insert your name");
         Player p2 = new Player(sc.nextLine(), "O");
 
+
         //här ska den gå sålänge inta alla är infylld
 
-        for (int i = 0; i < 10; i++) {
-            if (i == 10) {
-                System.out.println("given input was not valid for to many times, we start over");
-                break;
-            }
+        for (int i = 0; i < 9; i++) {
 
             if (i % 2 == 0) {
 
-                System.out.println(p1.getName() + " it's your turn, where do you want to set your " + p1.getSymbol() + "!");
-
+                System.out.println(p1.getName() +
+                        " it's your turn, where do you want to set your " + p1.getSymbol() + "!");
                 String choice = sc.nextLine();
+                String symbol = p1.getSymbol();
+                String name = p1.getName();
+                playerMove(choice, symbol, name, b);
 
-
-                String h = p1.getSymbol();
-                if (b.validMove(choice)) {
-                      b.board[b.setPos(choice)] = b.board[b.setPos(choice)].replace(".", h);
-                    b.printBoard();
-
-                }
-                else {
-                    String newChoice;
-
-                    do {
-
-                        System.out.println("That was not a valid choice, "+
-                                p1.getName() + " it's your turn, where do you want to set your " + p1.getSymbol() + "!");
-                        newChoice = sc.nextLine();
-
-                    } while (!b.validMove(newChoice));
-                    if (b.validMove(newChoice) == true) {
-                        b.board[b.setPos(newChoice)] = b.board[b.setPos(newChoice)].replace(".", h);
-                        b.printBoard();
-                    }
-                }
-
-                if (b.checkWin(p1.getSymbol())) {
-                    System.out.println(p1.getName() + " you won!\nGet ready for a new round");
+                if (b.checkWin(symbol)) {
+                    System.out.println(name + " you won!\nGet ready for a new round");
                     break;
                 } else {
-                    b.checkDraw(b.board);
+
                     if (b.checkDraw(b.board)) {
                         break;
-
-                }}} else {
-                    System.out.println(p2.getName() + " it's your turn, where do you want to set your " + p2.getSymbol() + "!");
-                    String choice = sc.nextLine();
-
-                    String h = "O";
-                    if (b.validMove(choice)) {
-                        b.board[b.setPos(choice)] = b.board[b.setPos(choice)].replace(".", h);
-                        b.printBoard();
-
-                    } else {
-                        String newChoice;
-
-                        do {
-
-                            System.out.println("Place already taken! That was not a valid choice, "+
-                                    p2.getName() + " it's your turn, where do you want to set your " + p2.getSymbol() + "!");
-                            newChoice = sc.nextLine();
-
-                        } while (!b.validMove(newChoice));
-                        if (b.validMove(newChoice)) {
-                            b.board[b.setPos(newChoice)] = b.board[b.setPos(newChoice)].replace(".", h);
-                            b.printBoard();
-                        }
                     }
+                }
+            } else {
+                System.out.println(p2.getName() + " it's your turn, where do you want to set your " + p2.getSymbol() + "!");
+                String choice = sc.nextLine();
 
-                        if (b.checkWin(p2.getSymbol()) == true) {
-                            System.out.println(p2.getName() + " you won!\n" + p1.getName() + " get ready for a new round");
-                            break;
-                        } else {
-                            b.checkDraw(b.board);
-                            if (b.checkDraw(b.board)) {
-                                break;
-                            }
-                        }
+                String symbol = "O";
+                String name = p2.getName();
+                playerMove(choice, symbol, name, b);
 
+                if (b.checkWin(p2.getSymbol()) == true) {
+                    System.out.println(p2.getName() + " you won!\n get ready for a new round");
+                    break;
+                } else {
+
+                    if (b.checkDraw(b.board)) {
+                        break;
                     }
+                }
             }
-
-
         }
-
-
     }
-
+}

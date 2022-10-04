@@ -16,10 +16,5 @@ public class Player {
         return symbol;
     }
 
-    public void addNewPlayer(){
-
-
-
-    }
 }
 

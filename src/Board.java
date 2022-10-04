@@ -19,8 +19,6 @@ public class Board {
                 "  ---+---+---\n" + "c  " + board[6] + " | " + board[7] + " | " + board[8] + "\n");
 
     }
-
-
     public boolean checkWin(String symbol) {
         this.symbol = symbol;
 
@@ -41,8 +39,6 @@ public class Board {
 
 
     public int setPos(String pos) {
-
-
 
         this.pos = pos;
 
@@ -89,7 +85,7 @@ public class Board {
 
             return false;
         } else {
-            System.out.println("DRWAAAAAWWWW no one won!");
+            System.out.println("Its a tie!! No one won!");
             return true;
         }
 
