@@ -38,10 +38,10 @@ public class Board {
     }
 
 
-    public int setPos(String pos) {
+ /*   public int setPos(String pos) {
 
         this.pos = pos;
-
+try{
         switch (pos) {
             case "a1":
                 return 0;
@@ -61,20 +61,19 @@ public class Board {
                 return 7;
             case "c3":
                 return 8;
-        }
+        }} catch (Exception e){
+    System.out.println("not a vlid move");
+}
 
 // här behöver jag felhanteringen
 
-        return 0;
+        return 9;
     }
+//    public ArrayIndexOutOfBoundsException(int index) {
+  //      super("Array index out of range: " + index);
+   // }
+//} */
 
-    public boolean validMove(String pos) {
-
-        this.pos = pos;
-        setPos(pos);
-
-        return board[setPos(pos)].equals(".");
-    }
 
 
     public boolean checkDraw(String[] board) {
