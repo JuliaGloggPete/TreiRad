@@ -6,29 +6,52 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
         Board b = new Board();
-        System.out.println("Hello - how about som Tic Tac Toe - Wanna play y/n?");
 
-        String wantToPlay = sc.nextLine();
+do {
+    System.out.println("Hello - how about som Tic Tac Toe - Wanna play y/n?");
 
+    String wantToPlay = sc.nextLine();
 
-        if (validMenuChoice(wantToPlay) == true) {
+    // kortar ner här genom if y if n och else not a valid answer och sen loopar om - då behöver jag inte tv
 
-            switch (wantToPlay) {
-                case "n":
-                    System.out.println("ok, bye!");
+    //validMenuChoice(wantToPlay);
+    switch (wantToPlay) {
+        case "n":
+            System.out.println("ok, bye!");
 
-                    break;
-                case "y":
+            break;
+        case "y":
 
-                    // 1 or two players
-                    boolean play = true;
+            // 1 or two players
+            boolean play = true;
 
-                    while (play) {
-                        b.printBoard();
-                        playerTurn();
-                    }
+            while (play) {
+                b.printBoard();
+                System.out.println("do you want to play against another player press 1 \n" +
+                        "do your want to play against the computer press 2");
+                String manOrMachine = sc.nextLine();
+                // ska starta om utan att fråga igen...
+
+                if (manOrMachine.equals("1")) {
+                    System.out.println("Player 1 please insert your name");
+                    Player p1 = new Player(sc.nextLine(), "X");
+                    System.out.println("Player 2 please insert your name");
+                    Player p2 = new Player(sc.nextLine(), "O");
+                    playerTurn( p1, p2);
+                } else if (manOrMachine.equals("2")){
+                    System.out.println("Please insert your name");
+                    Player p1 = new Player(sc.nextLine(), "X");
+                    Player p2 = new Player("Megatron","Y");
+                    andrplayerTurn(p1, p2);
+                }
             }
-        } else {
+        default:
+            System.out.println("not a valid answer");
+            break;
+
+    }}
+    while (true) ;
+        /*} else {
 
             String newWantToPlay;
             do {
@@ -48,25 +71,31 @@ public class Main {
 
                         while (play) {
                             b.printBoard();
+                            System.out.println("do you want to play against another player press 1 \n" +
+                                    "do your want to play against the computer press 2");
+                            String manOrMachine= sc.nextLine();
 
-                            playerTurn();
+                            if (manOrMachine.equals("1")){
+
+                            playerTurn();}
+
                         }
-                }
-            }
-        }
-    }
+                }*/
 
-    public static boolean validMenuChoice(String wantToPlay) {
+        }
+
+
+    /*public static boolean validMenuChoice(String wantToPlay) {
 
         while (true) {
             if (wantToPlay.equals("y")) {
                 return true;
             } else if (wantToPlay.equals("n")) {
-                return true;
+                return false;
             }
             return false;
         }
-    }
+    }*/
 
     public static void playerMove(String choice, String symbol, String name, Board b) {
 
@@ -98,29 +127,83 @@ public class Main {
 
 
 
-    /*public static void artificialPlayer(Board b) {
+public static String artificialPlayer(Board b) {
         String symbol = "Y";
         Random random = new Random();
-        int robotPos = random.nextInt(9);
+
+        int robotPos = random.nextInt(8);
+            switch (robotPos) {
+                case 0:
+                    return "a1";
+                case 1:
+                    return "a2";
+                case 2:
+                    return "a3";
+                case 3:
+                    return "b1";
+                case 4:
+                    return "b2";
+                case 5:
+                    return "b3";
+                case 6:
+                    return "c1";
+                case 7:
+                    return "c2";
+                case 8:
+                    return "c3";
+            }
 
 
+    return symbol;
+}
 
-            if (b.board[robotPos].equals(".")) {
-                b.board[robotPos].replace(".", symbol);
-            } else {artificialPlayer(b);}
-        }
-*/
-
-    public static void playerTurn() {
+    public static void andrplayerTurn(Player p1, Player p2) {
         Scanner sc = new Scanner(System.in);
         Board b = new Board();
-        System.out.println("Player 1 please insert your name");
-        Player p1 = new Player(sc.nextLine(), "X");
-        System.out.println("Player 2 please insert your name");
-        Player p2 = new Player(sc.nextLine(), "O");
 
+        for (int i = 0; i < 9; i++) {
 
-        //här ska den gå sålänge inta alla är infylld
+            if (i % 2 == 0) {
+
+                System.out.println(p1.getName() +
+                        " it's your turn, where do you want to set your " + p1.getSymbol() + "!");
+                String choice = sc.nextLine();
+                String symbol = p1.getSymbol();
+                String name = p1.getName();
+                playerMove(choice, symbol, name, b);
+                // artificialPlayer(b);
+
+                if (b.checkWin(symbol)) {
+                    System.out.println(name + " you won!\nGet ready for a new round");
+                    break;
+                } else {
+
+                    if (b.checkDraw(b.board)) {
+                        break;
+                    }
+                }
+            } else {
+                System.out.println(p2.getName() + " it's your turn, where do you want to set your " + p2.getSymbol() + "!");
+                artificialPlayer(b);
+
+                String symbol = "O";
+                String name = p2.getName();
+                playerMove(artificialPlayer(b), symbol, name, b);
+
+                if (b.checkWin(p2.getSymbol()) == true) {
+                    System.out.println(p2.getName() + " you won!\n get ready for a new round");
+                    break;
+                } else {
+
+                    if (b.checkDraw(b.board)) {
+                        break;
+                    }
+                }
+            }
+        }}
+    public static void playerTurn(Player p1, Player p2) {
+        Scanner sc = new Scanner(System.in);
+        Board b = new Board();
 
         for (int i = 0; i < 9; i++) {
 
@@ -189,7 +272,7 @@ public class Main {
                     return 8;
             }
         } catch (Exception e) {
-            System.out.println("not a vlid move");
+            System.out.println("not a valid move");
         }
 
 // här behöver jag felhanteringen
