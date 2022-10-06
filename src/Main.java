@@ -1,4 +1,3 @@
-import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
@@ -20,18 +19,40 @@ public class Main {
             String manOrMachine = sc.nextLine();
 
 
-            if (manOrMachine.equals("1")) {
 
-                System.out.println("Player 1 please insert your name");
-                Player p1 = new Player(sc.nextLine(), "X");
-                System.out.println("Player 2 please insert your name");
-                Player p2 = new Player(sc.nextLine(), "O");
 
+                if (manOrMachine.equals("1"))
+                {    System.out.println("Player 1 please insert your name");
+
+                    HumanPlayer p1 = new HumanPlayer(sc.nextLine(), "X");
+                    System.out.println("Player 2 please insert your name");
+                HumanPlayer p2 = new HumanPlayer(sc.nextLine(), "O");
+
+                    do {
+                        playerTurn(p1, p2);
+
+                        round++;
+                        System.out.println("do you want to quit? Press q, wanna continue press anything else");
+                        String wantToQuit = sc.nextLine();
+                        if (wantToQuit.equals("q")) {
+                            System.out.println("ok, bye!");
+                            play = false;
+                            break;
+                        }
+                        System.out.println("Get ready for round "+round+"!");
+
+                    }
+                    while (play);
+                }
+                else if (manOrMachine.equals("2")) {
+                    System.out.println("Player 1 please insert your name");
+                    HumanPlayer p1 = new HumanPlayer(sc.nextLine(), "X");
+
+                AI a1 = new AI();
                 do {
-                    playerTurn(p1, p2);
 
+                    machineAndManPlayerTurn(p1, a1);
                     round++;
-
 
                     System.out.println("do you want to quit? Press q, wanna continue press anything else");
                     String wantToQuit = sc.nextLine();
@@ -40,37 +61,111 @@ public class Main {
                         play = false;
                         break;
                     }
+
                     System.out.println("Get ready for round "+round+"!");
-
                 }
-                while (play = true);
+                while (play);
+            }
 
+        }
+    }
 
-            } else if (manOrMachine.equals("2")) {
-                System.out.println("Please insert your name");
-                Player p1 = new Player(sc.nextLine(), "X");
-                Player p2 = new Player("Megatron", "O");
-                do {
+    public static void playerTurn(Player p1, Player p2) {
+        Scanner sc = new Scanner(System.in);
+        Board b = new Board();
 
-                    machineAndManPlayerTurn(p1, p2);
-                    round++;
+        for (int i = 0; i < 9; i++) {
 
-                    System.out.println("do you want to quit? Press q, wanna continue press anything else");
-                    String wantToQuit = sc.nextLine();
-                    if (wantToQuit.equals("q")) {
-                        System.out.println("ok, bye!");
-                        play = false;
+            if (i % 2 == 0) {
+
+                System.out.println(p1.getName() +
+                        " it's your turn, where do you want to set your " + p1.getSymbol() + "!");
+                String choice = sc.nextLine();
+                String symbol = p1.getSymbol();
+                String name = p1.getName();
+                playerMove(choice, symbol, name, b);
+
+                if (b.checkWin(symbol)) {
+
+                    XWon(p1.getName());
+                    System.out.println(name + " you won!");
+                    break;
+
+                } else {
+
+                    if (b.checkDraw(b.board)) {
                         break;
                     }
-
-                    System.out.println("Get ready for round "+round+"!");
                 }
-                while (play = true);
+            } else {
+                System.out.println(p2.getName() + " it's your turn, where do you want to set your " + p2.getSymbol() + "!");
+                String choice = sc.nextLine();
+
+                String symbol = "O";
+                String name = p2.getName();
+                playerMove(choice, symbol, name, b);
+
+                if (b.checkWin(p2.getSymbol())) {
+                    OWon(p2.getName());
+
+                    System.out.println(p2.getName() + " you won!");
+                    break;
+                } else {
+
+                    if (b.checkDraw(b.board)) {
+                        break;
+                    }
+                }
             }
         }
     }
 
-    // should probably not have packed everything in player move at once - as I now have problems with the AI
+    public static void machineAndManPlayerTurn(HumanPlayer p1, AI a1) {
+        Scanner sc = new Scanner(System.in);
+        Board b = new Board();
+
+        for (int i = 0; i < 9; i++) {
+
+            if (i % 2 == 0) {
+
+                System.out.println(p1.getName() +
+                        " it's your turn, where do you want to set your " + p1.getSymbol() + "!");
+                String choice = sc.nextLine();
+                String symbol = p1.getSymbol();
+                String name = p1.getName();
+                playerMove(choice, symbol, name, b);
+
+                if (b.checkWin(symbol)) {
+                    XWon(p1.getName());
+                    System.out.println(name + " you won!");
+                    break;
+                } else {
+
+                    if (b.checkDraw(b.board)) {
+                        break;
+                    }
+                }
+            } else {
+                System.out.println(a1.getName() + " it's your turn, where do you want to set your " + a1.getSymbol() + "!");
+                AI.ArtificialPos();
+
+                String symbol = "O";
+                machineMove(AI.ArtificialPos(), symbol, b);
+
+                if (b.checkWin(a1.getSymbol())) {
+                    OWon(a1.getName());
+                    System.out.println(a1.getName() + " you won!");
+                    break;
+                } else {
+
+                    if (b.checkDraw(b.board)) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     public static void playerMove(String choice, String symbol, String name, Board b) {
 
         Scanner sc = new Scanner(System.in);
@@ -97,162 +192,28 @@ public class Main {
         }
     }
 
-    public static void machineMove(String choice, String symbol, Board b) {
+    public static void machineMove(int choice, String symbol, Board b) {
 
-        if (b.validMove(choice, b)) {
-            b.board[b.setPos(choice)] = b.board[b.setPos(choice)].replace(".", symbol);
+        if (b.validMoveAI(choice, b)) {
+            b.board[b.setPosAi(choice)] = b.board[b.setPosAi(choice)].replace(".", symbol);
             b.printBoard();
         } else {
 
-            machineMove(artificialPlayer(b),
-                    symbol, b);
+            machineMove(AI.ArtificialPos(), symbol, b);
         }
     }
 
-
-    public static String artificialPlayer(Board b) {
-        String symbol = "O";
-        Random random = new Random();
-
-        int robotPos = random.nextInt(9);
-        switch (robotPos) {
-            case 0:
-                return "a1";
-            case 1:
-                return "a2";
-            case 2:
-                return "a3";
-            case 3:
-                return "b1";
-            case 4:
-                return "b2";
-            case 5:
-                return "b3";
-            case 6:
-                return "c1";
-            case 7:
-                return "c2";
-            case 8:
-                return "c3";
-        }
-
-        return symbol;
-
-    }
-
-    public static void machineAndManPlayerTurn(Player p1, Player p2) {
-        Scanner sc = new Scanner(System.in);
-        Board b = new Board();
-
-        for (int i = 0; i < 9; i++) {
-
-            if (i % 2 == 0) {
-
-                System.out.println(p1.getName() +
-                        " it's your turn, where do you want to set your " + p1.getSymbol() + "!");
-                String choice = sc.nextLine();
-                String symbol = p1.getSymbol();
-                String name = p1.getName();
-                playerMove(choice, symbol, name, b);
-
-                if (b.checkWin(symbol)) {
-                    Xwon(p1.getName());
-                    System.out.println(name + " you won!");
-                    break;
-                } else {
-
-                    if (b.checkDraw(b.board)) {
-                        break;
-                    }
-                }
-            } else {
-                System.out.println(p2.getName() + " it's your turn, where do you want to set your " + p2.getSymbol() + "!");
-                artificialPlayer(b);
-
-                String symbol = "O";
-                machineMove(artificialPlayer(b), symbol, b);
-
-                if (b.checkWin(p2.getSymbol())) {
-                    Owon(p2.getName());
-                    System.out.println(p2.getName() + " you won!");
-                    break;
-                } else {
-
-                    if (b.checkDraw(b.board)) {
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    public static void playerTurn(Player p1, Player p2) {
-        Scanner sc = new Scanner(System.in);
-        Board b = new Board();
-
-
-        for (int i = 0; i < 9; i++) {
-
-            if (i % 2 == 0) {
-
-                System.out.println(p1.getName() +
-                        " it's your turn, where do you want to set your " + p1.getSymbol() + "!");
-                String choice = sc.nextLine();
-                String symbol = p1.getSymbol();
-                String name = p1.getName();
-                playerMove(choice, symbol, name, b);
-
-
-                if (b.checkWin(symbol)) {
-
-
-
-                    Xwon(p1.getName());
-
-                    System.out.println(name + " you won!");
-
-                    break;
-
-
-                } else {
-
-                    if (b.checkDraw(b.board)) {
-                        break;
-                    }
-                }
-            } else {
-                System.out.println(p2.getName() + " it's your turn, where do you want to set your " + p2.getSymbol() + "!");
-                String choice = sc.nextLine();
-
-                String symbol = "O";
-                String name = p2.getName();
-                playerMove(choice, symbol, name, b);
-
-                if (b.checkWin(p2.getSymbol())) {
-                    Owon(p2.getName());
-
-                    System.out.println(p2.getName() + " you won!");
-                    break;
-                } else {
-
-                    if (b.checkDraw(b.board)) {
-                        break;
-                    }
-                }
-            }
-        }
-    }
-  static int xWon = 0;
-    static int Owon= 0;
-    public static void Xwon(String name){
+    static int xWon = 0;
+    static int oWon = 0;
+    public static void XWon(String name){
 
         xWon++;
              System.out.println("Times "+name+" won:"+ xWon);
     }
 
-    public static void Owon(String name){
-        Owon++;
-        System.out.println("Times "+name+" won:"+Owon);
+    public static void OWon(String name){
+        oWon++;
+        System.out.println("Times "+name+" won:"+ oWon);
 
     }
 }

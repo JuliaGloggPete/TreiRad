@@ -2,25 +2,21 @@
 import java.util.Arrays;
 
 public class Board {
-
     String[] board = {".", ".", ".", ".", ".", ".", ".", ".", "."};
-    String pos;
-    String symbol;
+
 
     public Board() {
-        this.board = board;
+       String [] board= this.board;
     }
-
     public void printBoard() {
-        this.board = board;
+        String [] board= this.board;
 
         System.out.println("   1   2   3\n" + "a  " + board[0] + " | " + board[1] + " | " + board[2] + "\n" +
                 "  ---+---+---\n" + "b  " + board[3] + " | " + board[4] + " | " + board[5] + "\n" +
                 "  ---+---+---\n" + "c  " + board[6] + " | " + board[7] + " | " + board[8] + "\n");
-
     }
     public boolean checkWin(String symbol) {
-        this.symbol = symbol;
+
 
         if (board[0].equals(symbol) && board[1].equals(symbol) && board[2].equals(symbol) ||
                 board[3].equals(symbol) && board[4].equals(symbol) && board[5].equals(symbol) ||
@@ -35,6 +31,11 @@ public class Board {
 
         return false;
     }
+
+    public static int setPosAi(int Aipos){
+        return Aipos;
+    }
+
 
     public static int setPos(String pos) {
 
@@ -90,6 +91,23 @@ public class Board {
 
                 return b.board[setPos(pos)].equals(".");
             }
+        } catch (Exception e) {
+            System.out.println("That's not a valid position");
+
+        }
+
+        return false;
+    }
+
+
+    public static boolean validMoveAI(int pos, Board b) {
+
+        try {
+
+                setPosAi(pos);
+
+                return b.board[setPosAi(pos)].equals(".");
+
         } catch (Exception e) {
             System.out.println("That's not a valid position");
 

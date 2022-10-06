@@ -7,7 +7,9 @@ public class Player {
         this.name = name;
         this.symbol = symbol;
     }
+public Player(){
 
+}
     public String getName() {
         return name;
     }
