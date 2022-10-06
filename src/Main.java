@@ -1,68 +1,58 @@
 import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
         Board b = new Board();
-        int round =1;
+        int round = 1;
 
-        System.out.println("Hello - how about som Tic Tac Toe - Wanna play? press anything and enter to continue");
-        sc.nextLine();
+        System.out.println("Welcome to TIC TAC TOE!!\n");
 
         boolean play = true;
 
         while (play) {
-            b.printBoard();
-            System.out.println("do you want to play against another player press 1 \n" +
-                    "do your want to play against the computer press 2");
+
+            System.out.println("Do you want to play against another player? Press 1 \n" +
+                    "Do you want to play against the computer? Press 2");
             String manOrMachine = sc.nextLine();
 
 
+            if (manOrMachine.equals("1")) {
+                System.out.println("Player 1 please insert your name");
 
-
-                if (manOrMachine.equals("1"))
-                {    System.out.println("Player 1 please insert your name");
-
-                    HumanPlayer p1 = new HumanPlayer(sc.nextLine(), "X");
-                    System.out.println("Player 2 please insert your name");
+                HumanPlayer p1 = new HumanPlayer(sc.nextLine(), "X");
+                System.out.println("Player 2 please insert your name");
                 HumanPlayer p2 = new HumanPlayer(sc.nextLine(), "O");
 
-                    do {
-                        playerTurn(p1, p2);
+                do {
+                    b.printBoard();
+                    playerTurn(p1, p2);
 
-                        round++;
-                        System.out.println("do you want to quit? Press q, wanna continue press anything else");
-                        String wantToQuit = sc.nextLine();
-                        if (wantToQuit.equals("q")) {
-                            System.out.println("ok, bye!");
-                            play = false;
-                            break;
-                        }
-                        System.out.println("Get ready for round "+round+"!");
+                    round++;
+                    if (Quit()){
+                        play = false;
+                        break;}
+                    System.out.println("Get ready for round " + round + "!");
 
-                    }
-                    while (play);
                 }
-                else if (manOrMachine.equals("2")) {
-                    System.out.println("Player 1 please insert your name");
-                    HumanPlayer p1 = new HumanPlayer(sc.nextLine(), "X");
+                while (play);
+            } else if (manOrMachine.equals("2")) {
+                System.out.println("Player 1 please insert your name");
+                HumanPlayer p1 = new HumanPlayer(sc.nextLine(), "X");
 
                 AI a1 = new AI();
                 do {
+                    b.printBoard();
 
                     machineAndManPlayerTurn(p1, a1);
                     round++;
 
-                    System.out.println("do you want to quit? Press q, wanna continue press anything else");
-                    String wantToQuit = sc.nextLine();
-                    if (wantToQuit.equals("q")) {
-                        System.out.println("ok, bye!");
+                    if (Quit()){
                         play = false;
                         break;
                     }
 
-                    System.out.println("Get ready for round "+round+"!");
+                    System.out.println("Get ready for round " + round + "!");
                 }
                 while (play);
             }
@@ -70,6 +60,18 @@ public class Main {
         }
     }
 
+    public static boolean Quit(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("do you want to quit? Press q, wanna continue press anything else");
+        String wantToQuit = sc.nextLine();
+        if (wantToQuit.equals("q")) {
+            System.out.println("Ok, thank you for playing, hope to see you soon again! Bye, bye!");
+            return true;
+        }
+        return false;
+    }
+
+    //method for two different human players to play
     public static void playerTurn(Player p1, Player p2) {
         Scanner sc = new Scanner(System.in);
         Board b = new Board();
@@ -81,14 +83,12 @@ public class Main {
                 System.out.println(p1.getName() +
                         " it's your turn, where do you want to set your " + p1.getSymbol() + "!");
                 String choice = sc.nextLine();
-                String symbol = p1.getSymbol();
-                String name = p1.getName();
-                playerMove(choice, symbol, name, b);
+                playerMove(choice, p1.getSymbol(), p1.getName(), b);
 
-                if (b.checkWin(symbol)) {
+                if (b.checkWin(p1.getSymbol())) {
 
                     XWon(p1.getName());
-                    System.out.println(name + " you won!");
+                    System.out.println(p2.getName()+" your wins are:"+oWon);
                     break;
 
                 } else {
@@ -101,14 +101,12 @@ public class Main {
                 System.out.println(p2.getName() + " it's your turn, where do you want to set your " + p2.getSymbol() + "!");
                 String choice = sc.nextLine();
 
-                String symbol = "O";
-                String name = p2.getName();
-                playerMove(choice, symbol, name, b);
+                playerMove(choice, p2.getSymbol(), p2.getName(), b);
 
                 if (b.checkWin(p2.getSymbol())) {
                     OWon(p2.getName());
 
-                    System.out.println(p2.getName() + " you won!");
+                    System.out.println(p1.getName()+" your wins are:"+xWon);
                     break;
                 } else {
 
@@ -120,6 +118,9 @@ public class Main {
         }
     }
 
+
+    // a kind of duplication from the PlayerTurn method -
+    // as I dit not manage to slim it down and combine
     public static void machineAndManPlayerTurn(HumanPlayer p1, AI a1) {
         Scanner sc = new Scanner(System.in);
         Board b = new Board();
@@ -131,13 +132,12 @@ public class Main {
                 System.out.println(p1.getName() +
                         " it's your turn, where do you want to set your " + p1.getSymbol() + "!");
                 String choice = sc.nextLine();
-                String symbol = p1.getSymbol();
-                String name = p1.getName();
-                playerMove(choice, symbol, name, b);
 
-                if (b.checkWin(symbol)) {
+                playerMove(choice, p1.getSymbol(), p1.getName(), b);
+
+                if (b.checkWin(p1.getSymbol())) {
                     XWon(p1.getName());
-                    System.out.println(name + " you won!");
+                    System.out.println(a1.getName()+" your wins are:"+oWon);
                     break;
                 } else {
 
@@ -148,9 +148,7 @@ public class Main {
             } else {
                 System.out.println(a1.getName() + " it's your turn, where do you want to set your " + a1.getSymbol() + "!");
                 AI.ArtificialPos();
-
-                String symbol = "O";
-                machineMove(AI.ArtificialPos(), symbol, b);
+                AIMove(AI.ArtificialPos(), a1.getSymbol(), b);
 
                 if (b.checkWin(a1.getSymbol())) {
                     OWon(a1.getName());
@@ -166,6 +164,8 @@ public class Main {
         }
     }
 
+    // a method that allows the player(s) to choose where they want to put their
+    // individual symbol but also restrains them from making an invalid choice
     public static void playerMove(String choice, String symbol, String name, Board b) {
 
         Scanner sc = new Scanner(System.in);
@@ -178,7 +178,6 @@ public class Main {
             String newChoice;
 
             do {
-
                 System.out.println("That was not a valid choice, " +
                         name + " it's your turn, where do you want to set your " + symbol + "!");
                 newChoice = sc.nextLine();
@@ -192,28 +191,29 @@ public class Main {
         }
     }
 
-    public static void machineMove(int choice, String symbol, Board b) {
+    //a method that enables the Ai to move but also restrains it from making an invalid move(below)
+    public static void AIMove(int choice, String symbol, Board b) {
 
         if (b.validMoveAI(choice, b)) {
             b.board[b.setPosAi(choice)] = b.board[b.setPosAi(choice)].replace(".", symbol);
             b.printBoard();
         } else {
 
-            machineMove(AI.ArtificialPos(), symbol, b);
+            AIMove(AI.ArtificialPos(), symbol, b);
         }
     }
 
+// in order to be able to count individual wins:
     static int xWon = 0;
     static int oWon = 0;
-    public static void XWon(String name){
-
+    public static void XWon(String name) {
         xWon++;
-             System.out.println("Times "+name+" won:"+ xWon);
+        System.out.println(name+ ", you win!!! \n Times " + name + " won:" + xWon);
     }
 
-    public static void OWon(String name){
+    public static void OWon(String name) {
         oWon++;
-        System.out.println("Times "+name+" won:"+ oWon);
+        System.out.println(name+ ", you win!!! \n Times " + name + " won:" +  oWon);
 
     }
 }

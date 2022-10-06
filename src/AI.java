@@ -11,6 +11,8 @@ public class AI extends Player{
         name= "Megatron";
         symbol="O";
     }
+
+    //create a method in order to enable the AI to choos a position
     public static int ArtificialPos() {
 
         Random random = new Random();
