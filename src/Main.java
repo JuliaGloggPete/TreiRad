@@ -2,15 +2,11 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Main {
-
-
-
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
         Board b = new Board();
-
-        int won=0;
+        int round =1;
 
         System.out.println("Hello - how about som Tic Tac Toe - Wanna play? press anything and enter to continue");
         sc.nextLine();
@@ -34,6 +30,9 @@ public class Main {
                 do {
                     playerTurn(p1, p2);
 
+                    round++;
+
+
                     System.out.println("do you want to quit? Press q, wanna continue press anything else");
                     String wantToQuit = sc.nextLine();
                     if (wantToQuit.equals("q")) {
@@ -41,6 +40,8 @@ public class Main {
                         play = false;
                         break;
                     }
+                    System.out.println("Get ready for round "+round+"!");
+
                 }
                 while (play = true);
 
@@ -52,6 +53,7 @@ public class Main {
                 do {
 
                     machineAndManPlayerTurn(p1, p2);
+                    round++;
 
                     System.out.println("do you want to quit? Press q, wanna continue press anything else");
                     String wantToQuit = sc.nextLine();
@@ -60,6 +62,8 @@ public class Main {
                         play = false;
                         break;
                     }
+
+                    System.out.println("Get ready for round "+round+"!");
                 }
                 while (play = true);
             }
@@ -94,8 +98,6 @@ public class Main {
     }
 
     public static void machineMove(String choice, String symbol, Board b) {
-
-        //if (validMove(choice,b))
 
         if (b.validMove(choice, b)) {
             b.board[b.setPos(choice)] = b.board[b.setPos(choice)].replace(".", symbol);
@@ -154,7 +156,8 @@ public class Main {
                 playerMove(choice, symbol, name, b);
 
                 if (b.checkWin(symbol)) {
-                    System.out.println(name + " you won!\nGet ready for a new round");
+                    Xwon(p1.getName());
+                    System.out.println(name + " you won!");
                     break;
                 } else {
 
@@ -170,7 +173,8 @@ public class Main {
                 machineMove(artificialPlayer(b), symbol, b);
 
                 if (b.checkWin(p2.getSymbol())) {
-                    System.out.println(p2.getName() + " you won!\n get ready for a new round");
+                    Owon(p2.getName());
+                    System.out.println(p2.getName() + " you won!");
                     break;
                 } else {
 
@@ -203,10 +207,10 @@ public class Main {
 
 
 
-                    Xwon();
-                    //System.out.println(p1.getName()+"won"+ xWins);
-                    System.out.println(name + " you won!\nGet ready for a new round");
-                    // System.out.println("total wins for "+p1.getName()+": "+ Xwin);
+                    Xwon(p1.getName());
+
+                    System.out.println(name + " you won!");
+
                     break;
 
 
@@ -225,9 +229,9 @@ public class Main {
                 playerMove(choice, symbol, name, b);
 
                 if (b.checkWin(p2.getSymbol())) {
-                    Owon();
+                    Owon(p2.getName());
 
-                    System.out.println(p2.getName() + " you won!\n get ready for a new round");
+                    System.out.println(p2.getName() + " you won!");
                     break;
                 } else {
 
@@ -237,20 +241,18 @@ public class Main {
                 }
             }
         }
-
-
     }
-  static int Xwon= 0;
+  static int xWon = 0;
     static int Owon= 0;
-    public static void Xwon(){
+    public static void Xwon(String name){
 
-        Xwon++;
-             System.out.println(Xwon);
+        xWon++;
+             System.out.println("Times "+name+" won:"+ xWon);
     }
 
-    public static void Owon(){
+    public static void Owon(String name){
         Owon++;
-        System.out.println(Owon);
+        System.out.println("Times "+name+" won:"+Owon);
 
     }
 }
