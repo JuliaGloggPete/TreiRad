@@ -2,17 +2,17 @@ import java.util.Random;
 
 public class AI extends Player{
 
-
-    public AI(String name, String symbol) {
-        super(name, symbol);
-
+String type = "a1";
+    public AI(String name, String symbol,String type) {
+        super(name, symbol,type);
     }
     public AI(){
         name= "Megatron";
         symbol="O";
+        type = "a1";
     }
 
-    //create a method in order to enable the AI to choos a position
+    //create a method in order to enable the AI to choose a position
     public static int ArtificialChoice() {
 
         Random random = new Random();
@@ -22,4 +22,8 @@ public class AI extends Player{
         return robotPos;
     }
 
+    @Override
+    public String getType() {
+        return type;
+    }
 }

@@ -1,15 +1,16 @@
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Board {
     String[] board = {".", ".", ".", ".", ".", ".", ".", ".", "."};
 
 
     public Board() {
-       String [] board= this.board;
+//       String [] board= this.board;
     }
     public void printBoard() {
-        String [] board= this.board;
+//        String [] board= this.board;
 
         System.out.println("   1   2   3\n" + "a  " + board[0] + " | " + board[1] + " | " + board[2] + "\n" +
                 "  ---+---+---\n" + "b  " + board[3] + " | " + board[4] + " | " + board[5] + "\n" +
@@ -80,7 +81,7 @@ public class Board {
         }
 
     }
-    public static boolean validMove(String pos, Board b) {
+    public  boolean validMove(String pos) {
 
         try {
             if (pos.equals("a1") || pos.equals("a2") || pos.equals("a3") ||
@@ -89,7 +90,7 @@ public class Board {
 
                 setPos(pos);
 
-                return b.board[setPos(pos)].equals(".");
+                return board[setPos(pos)].equals(".");
             }
         } catch (Exception e) {
             System.out.println("That's not a valid position");
@@ -98,23 +99,60 @@ public class Board {
 
         return false;
     }
+    public void AIMove(int choice, String symbol) {
 
+        if (validMoveAI(choice)) {
+            board[setPosAi(choice)] = board[setPosAi(choice)].replace(".", symbol);
+            printBoard();
+        } else {
 
-    public static boolean validMoveAI(int pos, Board b) {
+            AIMove(AI.ArtificialChoice(), symbol);
+        }
+    }
+    //a method that enables the Ai to move but also restrains it from making an invalid move(below)
+    public  boolean validMoveAI(int pos) {
 
         try {
 
                 setPosAi(pos);
 
-                return b.board[setPosAi(pos)].equals(".");
+                return board[setPosAi(pos)].equals(".");
 
         } catch (Exception e) {
-            System.out.println("That's not a valid position");
 
         }
 
         return false;
     }
+
+
+    // a method that allows the player(s) to choose where they want to put their
+    // individual symbol but also restrains them from making an invalid choice
+    public void playerMove(String choice, String symbol, String name) {
+
+        Scanner sc = new Scanner(System.in);
+
+        if (validMove(choice)) {
+            board[setPos(choice)] = board[setPos(choice)].replace(".", symbol);
+            printBoard();
+
+        } else {
+            String newChoice;
+
+            do {
+                System.out.println("That was not a valid choice, " +
+                        name + " it's your turn, where do you want to set your " + symbol + "!");
+                newChoice = sc.nextLine();
+
+            } while (!validMove(newChoice));
+            if (validMove(newChoice)) {
+                board[setPos(newChoice)] = board[setPos(newChoice)].replace(".", symbol);
+                printBoard();
+
+            }
+        }
+    }
+
 
 }
 

@@ -2,10 +2,12 @@ public class Player {
 
     String name;
     String symbol;
+    String type = " ";
 
-    public Player(String name,String symbol) {
+    public Player(String name,String symbol,String type) {
         this.name = name;
         this.symbol = symbol;
+        this.type= type;
     }
 public Player(){
 
@@ -18,5 +20,8 @@ public Player(){
         return symbol;
     }
 
+    public String getType() {
+        return type;
+    }
 }
 
