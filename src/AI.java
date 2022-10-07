@@ -13,7 +13,7 @@ public class AI extends Player{
     }
 
     //create a method in order to enable the AI to choos a position
-    public static int ArtificialPos() {
+    public static int ArtificialChoice() {
 
         Random random = new Random();
 

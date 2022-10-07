@@ -6,7 +6,14 @@ public class Main {
         Board b = new Board();
         int round = 1;
 
-        System.out.println("Welcome to TIC TAC TOE!!\n");
+        System.out.println("Welcome \n\n" +
+                " TTTTTTTTTT   II    CCCC       TTTTTTTTTTT    AA        CCCC       TTTTTTTTTTTT  OOOO      EEEEEEEE\n" +
+                "     TT       II   CC    C          TT       A  A     CC     C          TT     OO    OO    EE\n" +
+                "     TT       II  CC                TT      A    A    CC                TT    OO      OO   EE\n" +
+                "     TT       II  CC                TT     AAAAAAAA   CC                TT    OO      OO   EEEEEE\n" +
+                "     TT       II  CC      C         TT    A        A  CC      C         TT    OO      OO   EE\n" +
+                "     TT       II   CC    C          TT   A          A  CC    C          TT     OO    OO    EE\n" +
+                "     TT       II     CCCC           TT  A            A   CCCC           TT       OOOO      EEEEEEEE\n\n");
 
         boolean play = true;
 
@@ -62,7 +69,7 @@ public class Main {
 
     public static boolean Quit(){
         Scanner sc = new Scanner(System.in);
-        System.out.println("do you want to quit? Press q, wanna continue press anything else");
+        System.out.println("Do you want to quit? Press \"q\"(and Enter), wanna continue press anything else(and Enter)!");
         String wantToQuit = sc.nextLine();
         if (wantToQuit.equals("q")) {
             System.out.println("Ok, thank you for playing, hope to see you soon again! Bye, bye!");
@@ -72,7 +79,9 @@ public class Main {
     }
 
     //method for two different human players to play
-    public static void playerTurn(Player p1, Player p2) {
+    // if i check if its a human or a Ai pleyer I may be able to have just one method with an if els for plaqyer2/a1 turn
+
+    public static void playerTurn(HumanPlayer p1, HumanPlayer p2) {
         Scanner sc = new Scanner(System.in);
         Board b = new Board();
 
@@ -147,8 +156,8 @@ public class Main {
                 }
             } else {
                 System.out.println(a1.getName() + " it's your turn, where do you want to set your " + a1.getSymbol() + "!");
-                AI.ArtificialPos();
-                AIMove(AI.ArtificialPos(), a1.getSymbol(), b);
+                AI.ArtificialChoice();
+                AIMove(AI.ArtificialChoice(), a1.getSymbol(), b);
 
                 if (b.checkWin(a1.getSymbol())) {
                     OWon(a1.getName());
@@ -199,7 +208,7 @@ public class Main {
             b.printBoard();
         } else {
 
-            AIMove(AI.ArtificialPos(), symbol, b);
+            AIMove(AI.ArtificialChoice(), symbol, b);
         }
     }
 
@@ -208,12 +217,12 @@ public class Main {
     static int oWon = 0;
     public static void XWon(String name) {
         xWon++;
-        System.out.println(name+ ", you win!!! \n Times " + name + " won:" + xWon);
+        System.out.println(name+ ", you win!!! \nTimes " + name + " won:" + xWon);
     }
 
     public static void OWon(String name) {
         oWon++;
-        System.out.println(name+ ", you win!!! \n Times " + name + " won:" +  oWon);
+        System.out.println(name+ ", you win!!! \nTimes " + name + " won:" +  oWon);
 
     }
 }
